@@ -1,0 +1,18 @@
+/usr/libexec/qemu-kvm   \
+    -name  'guest-rhel8.0'    \
+    -machine  q35   \
+    -nodefaults   \
+    -vga  qxl \
+    -object iothread,id=iothread0 \
+    -blockdev driver=qcow2,file.driver=file,cache.direct=off,cache.no-flush=on,file.filename=/mnt/gluster/rhel810-64-virtio.qcow2,node-name=drive_image2 \
+    -device pcie-root-port,id=pcie.0-root-port-5,slot=5,chassis=5,addr=0x5,bus=pcie.0 \
+    -device virtio-blk-pci,id=image2,drive=drive_image2,bus=pcie.0-root-port-5,addr=0x0,werror=stop,rerror=stop,iothread=iothread0 \
+    -vnc :2 \
+    -monitor  stdio \
+    -m  8192 \
+    -smp  8 \
+    -device virtio-net-pci,mac=9a:b5:b6:a1:b2:c2,id=idMmq1jH,vectors=4,netdev=idxgXAlm,bus=pcie.0,addr=0x9      \
+    -netdev tap,id=idxgXAlm,vhost=on \
+    -qmp tcp:localhost:5952,server,nowait  \
+    -chardev file,path=/home/serial.log,id=serial_id_serial0 \
+    -device isa-serial,chardev=serial_id_serial0  \
